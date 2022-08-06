@@ -84,15 +84,15 @@ public class ServerOne extends WellBeingCheckerImplBase{
 						public void onNext(StepsCalcRequest value) {
 							// In bidirectional stream, both server and  client would be sending the stream of messages.
 							// Here, for each message in stream from client, server is sending back one response.
-								StringBuilder input2 = new StringBuilder(); 
+								StringBuilder input = new StringBuilder(); 
 							  
-					            input2.append(value.getText()); 
+					            input.append(value.getText()); 
 					           
 					        
 					         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
-					            StepsCalcResponse reply2 = StepsCalcResponse.newBuilder().setTextback("testing2").build();
+					            StepsCalcResponse reply = StepsCalcResponse.newBuilder().setTextback("testing2").build();
 					            
-					            responseObserver.onNext(reply2);;
+					            responseObserver.onNext(reply);;
 							
 						}
 

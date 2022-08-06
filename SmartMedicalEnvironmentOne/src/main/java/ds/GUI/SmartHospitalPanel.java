@@ -16,7 +16,13 @@ import javax.swing.border.EmptyBorder;
 
 import ds.serviceOne.WellBeingCheckerGrpc;
 import ds.serviceOne.WellBeingCheckerGrpc.WellBeingCheckerBlockingStub;
-//import ds.service2.Service2Grpc;
+import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlStub;
+import ds.serviceTwo.PersonalHealthAssistantGrpc;
+import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantBlockingStub;
+import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantStub;
+import ds.serviceThree.PatientMonitoringControlGrpc;
+import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlBlockingStub;
+import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlStub;
 //import ds.service3.Service3Grpc;
 //import ds.service4.Service4Grpc;
 import io.grpc.ManagedChannel;
@@ -152,7 +158,7 @@ public class SmartHospitalPanel implements ActionListener{
 
 	private void build() { 
 
-		JFrame frame = new JFrame("Service Controller Sample");
+		JFrame frame = new JFrame("Smart Medical Environment");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Set the panel to add buttons
@@ -197,46 +203,44 @@ public class SmartHospitalPanel implements ActionListener{
 			ds.serviceOne.PulseReadRequest request = ds.serviceOne.PulseReadRequest.newBuilder().setText(entry1.getText()).build();
 
 			//retrieving reply from service
-			ds.serviceOne.PulseReadResponse response = ds.serviceOne.PulseReadResponse.newBuilder().setTextback("High Blood Pressure").build();
+			ds.serviceOne.PulseReadResponse response = ds.serviceOne.PulseReadResponse.newBuilder().setTextback("High blood pressure").build();
 			
 			reply1.setText(String.valueOf( response.getTextback()));
-			
 			
 			
 			
 		}else if (label.equals("Invoke Service 2")) {
 			System.out.println("service 2 to be invoked ...");
 
-				/*		 
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-			WellBeingCheckerBlockingStub blockingStub = WellBeingCheckerGrpc.newBlockingStub(channel);
+					 
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
+			PersonalHealthAssistantBlockingStub blockingStub = PersonalHealthAssistantGrpc.newBlockingStub(channel);
 			
 			//preparing message to send
-			ds.serviceOne.StepsCalcRequest request = ds.serviceOne.StepsCalcRequest.newBuilder().setText(entry2.getText()).build();
-
+			ds.serviceTwo.BMICalcRequest request1 = ds.serviceTwo.BMICalcRequest.newBuilder().setHeight(entry2.getHeight()).build();
+			ds.serviceTwo.BMICalcRequest request2 = ds.serviceTwo.BMICalcRequest.newBuilder().setWeigth(75).build();
+			
 			//retrieving reply from service
-			ds.serviceOne.StepsCalcResponse response = ds.serviceOne.StepsCalcResponse.newBuilder().setTextback("You've reached 8.000 steps").build();
+			ds.serviceTwo.BMICalcResponse response = ds.serviceTwo.BMICalcResponse.newBuilder().setResult(25).build();
 
-			reply2.setText( String.valueOf( response.getTextback()));
-
+			reply2.setText( String.valueOf( response.getResult()));
 	
 			
 		}else if (label.equals("Invoke Service 3")) {
 			System.out.println("service 3 to be invoked ...");
-			
-
 		
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
-			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
+			PatientMonitoringControlBlockingStub blockingStub = PatientMonitoringControlGrpc.newBlockingStub(channel);
 
 			//preparing message to send
-			ds.service3.RequestMessage request = ds.service3.RequestMessage.newBuilder().setText(entry3.getText()).build();
+			ds.serviceThree.VitCheckerRequest request = ds.serviceThree.VitCheckerRequest.newBuilder().setText(entry3.getText()).build();
 
 			//retreving reply from service
-			ds.service3.ResponseMessage response = blockingStub.service3Do(request);
+			ds.serviceThree.VitCheckerResponse response = ds.serviceThree.VitCheckerResponse.newBuilder().setTextback("Pressure: Ok | Heart: ok").build();
 
-			reply3.setText( String.valueOf( response.getLength()) );
+			reply3.setText( String.valueOf( response.getTextback()));
 		
+			/*
 		}else if (label.equals("Invoke Service 4")) {
 			System.out.println("service 4 to be invoked ...");
 
