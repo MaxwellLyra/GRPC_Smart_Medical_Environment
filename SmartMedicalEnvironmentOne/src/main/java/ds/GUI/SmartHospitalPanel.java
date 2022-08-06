@@ -36,6 +36,8 @@ public class SmartHospitalPanel implements ActionListener{
 	private JTextField entry2, reply2;
 	private JTextField entry3, reply3;
 	private JTextField entry4, reply4;
+	private JTextField entry5, reply5;
+	private JTextField entry6, reply6;
 
 
 	private JPanel getService1JPanel() {
@@ -44,7 +46,7 @@ public class SmartHospitalPanel implements ActionListener{
 
 		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
 
-		JLabel label = new JLabel("Enter value")	;
+		JLabel label = new JLabel("Enter pulse");
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 		entry1 = new JTextField("",10);
@@ -63,6 +65,8 @@ public class SmartHospitalPanel implements ActionListener{
 		panel.setLayout(boxlayout);
 
 		return panel;
+		
+		
 	}	
 
 	private JPanel getService2JPanel() {
@@ -71,7 +75,7 @@ public class SmartHospitalPanel implements ActionListener{
 
 		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
 
-		JLabel label = new JLabel("Enter value")	;
+		JLabel label = new JLabel("Enter height")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 		entry2 = new JTextField("",10);
@@ -99,7 +103,7 @@ public class SmartHospitalPanel implements ActionListener{
 
 		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
 
-		JLabel label = new JLabel("Enter value")	;
+		JLabel label = new JLabel("Type 'check'")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 		entry3 = new JTextField("",10);
@@ -149,6 +153,63 @@ public class SmartHospitalPanel implements ActionListener{
 
 	}
 	
+	private JPanel getService5JPanel() {
+
+		JPanel panel = new JPanel();
+
+		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+
+		JLabel label = new JLabel("Enter value")	;
+		panel.add(label);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+		entry5 = new JTextField("",10);
+		panel.add(entry5);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		JButton button = new JButton("Invoke Service 5");
+		button.addActionListener(this);
+		panel.add(button);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		reply5 = new JTextField("", 10);
+		reply5 .setEditable(false);
+		panel.add(reply5 );
+
+		panel.setLayout(boxlayout);
+
+		return panel;
+
+	}
+	
+	private JPanel getService6JPanel() {
+
+		JPanel panel = new JPanel();
+
+		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+
+		JLabel label = new JLabel("Enter value")	;
+		panel.add(label);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+		entry6 = new JTextField("",10);
+		panel.add(entry6);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		JButton button = new JButton("Invoke Service 6");
+		button.addActionListener(this);
+		panel.add(button);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		reply6 = new JTextField("", 10);
+		reply6 .setEditable(false);
+		panel.add(reply6 );
+
+		panel.setLayout(boxlayout);
+
+		return panel;
+
+	}
+	
+	
 	public static void main(String[] args) {
 
 		SmartHospitalPanel gui = new SmartHospitalPanel();
@@ -176,6 +237,8 @@ public class SmartHospitalPanel implements ActionListener{
 		panel.add( getService2JPanel() );
 		panel.add( getService3JPanel() );
 		panel.add( getService4JPanel() );
+		panel.add( getService5JPanel() );
+		panel.add( getService6JPanel() );
 
 		// Set size for the frame
 		frame.setSize(300, 300);
@@ -193,7 +256,7 @@ public class SmartHospitalPanel implements ActionListener{
 		String label = button.getActionCommand();  
 
 		if (label.equals("Invoke Service 1")) {
-			System.out.println("service 1 to be invoked ...");
+			System.out.println("Pulse Reading ...");
 			
 			
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
@@ -207,10 +270,18 @@ public class SmartHospitalPanel implements ActionListener{
 			
 			reply1.setText(String.valueOf( response.getTextback()));
 			
+			////
+						
+			ds.serviceOne.StepsCalcRequest request2 = ds.serviceOne.StepsCalcRequest.newBuilder().setText(entry4.getText()).build();
+
+			//retrieving reply from service
+			ds.serviceOne.StepsCalcResponse response2 = ds.serviceOne.StepsCalcResponse.newBuilder().setTextback("3000 steps").build();
+			
+			reply4.setText(String.valueOf( response2.getTextback()));
 			
 			
 		}else if (label.equals("Invoke Service 2")) {
-			System.out.println("service 2 to be invoked ...");
+			System.out.println("BMI calculator ...");
 
 					 
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
@@ -227,7 +298,7 @@ public class SmartHospitalPanel implements ActionListener{
 	
 			
 		}else if (label.equals("Invoke Service 3")) {
-			System.out.println("service 3 to be invoked ...");
+			System.out.println("Vitals checker ...");
 		
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			PatientMonitoringControlBlockingStub blockingStub = PatientMonitoringControlGrpc.newBlockingStub(channel);
@@ -240,24 +311,6 @@ public class SmartHospitalPanel implements ActionListener{
 
 			reply3.setText( String.valueOf( response.getTextback()));
 		
-			/*
-		}else if (label.equals("Invoke Service 4")) {
-			System.out.println("service 4 to be invoked ...");
-
-			 
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50054).usePlaintext().build();
-			Service4Grpc.Service4BlockingStub blockingStub = Service4Grpc.newBlockingStub(channel);
-
-			//preparing message to send
-			ds.service4.RequestMessage request = ds.service4.RequestMessage.newBuilder().setText(entry4.getText()).build();
-
-			//retreving reply from service
-			ds.service4.ResponseMessage response = blockingStub.service4Do(request);
-
-			reply4.setText( String.valueOf( response.getLength()) );
-		
-		}else{
-			*/
 		}
 		
 	}
