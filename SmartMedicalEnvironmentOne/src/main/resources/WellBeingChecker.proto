@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ds.serviceOne";
+option java_outer_classname = "ServiceOneImpl";
+
+package service1;
+
+// Interface exported by the server.
+service WellBeingChecker {
+
+  	rpc PulseReading (stream PulseReadRequest) returns (stream PulseReadResponse) {}
+
+	rpc StepsCalculator (stream StepsCalcRequest) returns (StepsCalcResponse) {}
+}
+
+message PulseReadRequest {
+  string text = 1;
+}
+
+message PulseReadResponse {
+  string textback = 1;
+}
+
+message StepsCalcRequest {
+  string text = 1;
+}
+
+message StepsCalcResponse {
+  string textback = 1;
+}
