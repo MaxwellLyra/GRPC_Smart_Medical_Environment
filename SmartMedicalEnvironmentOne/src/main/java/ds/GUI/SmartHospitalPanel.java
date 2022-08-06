@@ -168,8 +168,8 @@ public class SmartHospitalPanel implements ActionListener{
 	
 		panel.add( getService1JPanel() );
 		panel.add( getService2JPanel() );
-		//panel.add( getService3JPanel() );
-		//panel.add( getService4JPanel() );
+		panel.add( getService3JPanel() );
+		panel.add( getService4JPanel() );
 
 		// Set size for the frame
 		frame.setSize(300, 300);
@@ -197,16 +197,17 @@ public class SmartHospitalPanel implements ActionListener{
 			ds.serviceOne.PulseReadRequest request = ds.serviceOne.PulseReadRequest.newBuilder().setText(entry1.getText()).build();
 
 			//retrieving reply from service
-			ds.serviceOne.PulseReadResponse response = ds.serviceOne.PulseReadResponse.newBuilder().setTextback("Hight temperature").build();
+			ds.serviceOne.PulseReadResponse response = ds.serviceOne.PulseReadResponse.newBuilder().setTextback("High Blood Pressure").build();
+			
+			reply1.setText(String.valueOf( response.getTextback()));
 			
 			
-			reply1.setText( String.valueOf( response.getTextback()));
 			
 			
 		}else if (label.equals("Invoke Service 2")) {
 			System.out.println("service 2 to be invoked ...");
 
-						 
+				/*		 
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
 			WellBeingCheckerBlockingStub blockingStub = WellBeingCheckerGrpc.newBlockingStub(channel);
 			
@@ -252,7 +253,7 @@ public class SmartHospitalPanel implements ActionListener{
 			reply4.setText( String.valueOf( response.getLength()) );
 		
 		}else{
-			
+			*/
 		}
 		
 	}

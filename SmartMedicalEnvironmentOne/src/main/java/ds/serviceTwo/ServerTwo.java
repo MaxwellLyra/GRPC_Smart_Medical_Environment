@@ -71,12 +71,27 @@ public class ServerTwo extends PersonalHealthAssistantImplBase{
 				          responseObserver.onNext(response);
 				          responseObserver.onCompleted();
 					}
-
-					
-					
 				};
+
+				}
+				
+				public void MedicineStock(MedStockRequest request, StreamObserver<MedStockResponse> responseObserver2) {
+					 System.out.println("receiving split");
+					 
+					// Retrieve the value from the request of the client and convert it to array
+					 String search = request.getText();
+					 
+					// LOGIC of THE METHOD 
+						// NOTE: YOU MAY NEED TO MODIFY THIS LOGIC HERE.
+					 if (search.equalsIgnoreCase("Paracetamol")) {
+						 responseObserver2.onNext(MedStockResponse.newBuilder().setTextback("32, Jervis St. - Shamroock Pharmacy").build());
+					 }
+					 else if (search.equalsIgnoreCase("Panadol")) {
+						 responseObserver2.onNext(MedStockResponse.newBuilder().setTextback("101, Dame St. - Boots Pharmacy").build());
+					 }
+										 
+					 responseObserver2.onCompleted();
+				}
 			}
-		 
-}
 		 
 		
