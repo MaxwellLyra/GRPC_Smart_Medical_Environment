@@ -1,1 +1,41 @@
-syntax = "proto2";
+syntax = "proto3";
+
+// generate separate or multiple java file for each generated class.
+option java_multiple_files = true;
+// Package inside the src/main/java where generated classes will reside.
+option java_package = "ds.serviceTwo";
+// Class name of the wrapper class which represent this file.
+option java_outer_classname = "ServiceTwoImpl";
+
+// package name to avoid name collisions
+package service2;
+
+// Interface exported by the server.
+service PersonalHealthAssistant {
+
+	// rpc method for Client Streaming calls
+	rpc BMICalculator (stream BMICalcRequest) returns (BMICalcResponse) {}
+
+	// rpc method for Server Streaming calls
+	rpc MedicineStock (MedStockRequest) returns (stream MedStockResponse) {}
+
+}
+
+	// define each variable in rpc method separately
+
+	message BMICalcRequest {
+		int32 weigth = 1;
+		int32 height = 2;
+	}
+
+	message BMICalcResponse {
+		int32 result = 1;
+	}
+
+	message MedStockRequest {
+		string text = 1;
+	}
+
+	message MedStockResponse {
+		string textback = 1;
+	}

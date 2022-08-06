@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import ds.serviceOne.WellBeingCheckerGrpc.WellBeingCheckerImplBase;
-import grpc.examples.clientstreamstrings.LengthResponse;
-import grpc.examples.clientstreamstrings.StringRequest;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -38,7 +36,7 @@ public class ServerOne extends WellBeingCheckerImplBase{
 			    server.awaitTermination();
 		 }
 		 
-		 public StreamObserver<PulseReadRequest> reverseStream(StreamObserver<PulseReadResponse> responseObserver) {
+		 public StreamObserver<PulseReadRequest> PulseReading(StreamObserver<PulseReadResponse> responseObserver) {
 				return new StreamObserver<PulseReadRequest>() {
 
 					// For each message in the stream, get one stream at a time.
@@ -73,7 +71,7 @@ public class ServerOne extends WellBeingCheckerImplBase{
 					
 				};}
 				
-				public StreamObserver<StepsCalcRequest> string(StreamObserver<StepsCalcResponse> responseObserver) {
+				public StreamObserver<StepsCalcRequest> StepsCalculator(StreamObserver<StepsCalcResponse> responseObserver) {
 					
 					// Retrieve the value from the stream of requests of the client. 
 					return new StreamObserver<StepsCalcRequest>() {

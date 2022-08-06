@@ -1,1 +1,40 @@
-syntax = "proto2";
+syntax = "proto3";
+
+// generate separate or multiple java file for each generated class.
+option java_multiple_files = true;
+// Package inside the src/main/java where generated classes will reside.
+option java_package = "ds.serviceThree";
+// Class name of the wrapper class which represent this file.
+option java_outer_classname = "ServiceThreeImpl";
+
+// package name to avoid name collisions
+package service3;
+
+// Interface exported by the server.
+service PatientMonitoringControl {
+
+	// rpc method for Bidirectional Streaming calls
+	rpc VitalsChecker (stream VitCheckerRequest) returns (stream VitCheckerResponse) {}
+
+	// rpc method for Server Streaming calls
+	rpc PatientUpdate (PatUpdateRequest) returns (PatUpdateResponse) {}
+
+}
+
+	// define each variable in rpc method separately
+
+	message VitCheckerRequest {
+		string text = 1;
+	}
+
+	message VitCheckerResponse {
+		string textback = 1;
+	}
+
+	message PatUpdateRequest {
+		string text = 1;
+	}
+
+	message PatUpdateResponse {
+		string textback = 1;
+	}

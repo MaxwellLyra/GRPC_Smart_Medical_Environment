@@ -1,31 +1,40 @@
 syntax = "proto3";
 
+// generate separate or multiple java file for each generated class.
 option java_multiple_files = true;
+// Package inside the src/main/java where generated classes will reside.
 option java_package = "ds.serviceOne";
+// Class name of the wrapper class which represent this file.
 option java_outer_classname = "ServiceOneImpl";
 
+// package name to avoid name collisions
 package service1;
 
 // Interface exported by the server.
 service WellBeingChecker {
 
-  	rpc PulseReading (stream PulseReadRequest) returns (stream PulseReadResponse) {}
+	// rpc method for Bidirectional Streaming calls
+	rpc PulseReading (stream PulseReadRequest) returns (stream PulseReadResponse) {
+	}
 
-	rpc StepsCalculator (stream StepsCalcRequest) returns (StepsCalcResponse) {}
+	// rpc method for Client Streaming calls
+	rpc StepsCalculator (stream StepsCalcRequest) returns (StepsCalcResponse) {
+	}
 }
 
-message PulseReadRequest {
-  string text = 1;
-}
+	// define each variable in rpc method separately
+	message PulseReadRequest {
+	string text = 1;
+	}
 
-message PulseReadResponse {
-  string textback = 1;
-}
+	message PulseReadResponse {
+	string textback = 1;
+	}
 
-message StepsCalcRequest {
-  string text = 1;
-}
+	message StepsCalcRequest {
+	string text = 1;
+	}
 
-message StepsCalcResponse {
-  string textback = 1;
-}
+	message StepsCalcResponse {
+	string textback = 1;
+	}

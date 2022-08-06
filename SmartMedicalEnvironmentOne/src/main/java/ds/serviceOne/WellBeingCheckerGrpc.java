@@ -125,6 +125,9 @@ public final class WellBeingCheckerGrpc {
   public static abstract class WellBeingCheckerImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     * rpc method for Bidirectional Streaming calls
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<ds.serviceOne.PulseReadRequest> pulseReading(
         io.grpc.stub.StreamObserver<ds.serviceOne.PulseReadResponse> responseObserver) {
@@ -132,6 +135,9 @@ public final class WellBeingCheckerGrpc {
     }
 
     /**
+     * <pre>
+     * rpc method for Client Streaming calls
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<ds.serviceOne.StepsCalcRequest> stepsCalculator(
         io.grpc.stub.StreamObserver<ds.serviceOne.StepsCalcResponse> responseObserver) {
@@ -180,6 +186,9 @@ public final class WellBeingCheckerGrpc {
     }
 
     /**
+     * <pre>
+     * rpc method for Bidirectional Streaming calls
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<ds.serviceOne.PulseReadRequest> pulseReading(
         io.grpc.stub.StreamObserver<ds.serviceOne.PulseReadResponse> responseObserver) {
@@ -188,6 +197,9 @@ public final class WellBeingCheckerGrpc {
     }
 
     /**
+     * <pre>
+     * rpc method for Client Streaming calls
+     * </pre>
      */
     public io.grpc.stub.StreamObserver<ds.serviceOne.StepsCalcRequest> stepsCalculator(
         io.grpc.stub.StreamObserver<ds.serviceOne.StepsCalcResponse> responseObserver) {
