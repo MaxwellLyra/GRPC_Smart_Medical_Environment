@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlImplBase;
-import grpc.examples.bidirectionstreamstrings.StringRequest;
-import grpc.examples.bidirectionstreamstrings.StringResponse;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -38,22 +36,21 @@ public class ServerThree extends PatientMonitoringControlImplBase{
 			    server.awaitTermination();
 		 }
 		 
-		 public StreamObserver<StringRequest> reverseStream(StreamObserver<StringResponse> responseObserver) {
-				return new StreamObserver<StringRequest>() {
+		 public StreamObserver<VitCheckerRequest> reverseStream(StreamObserver<VitCheckerResponse> responseObserver) {
+				return new StreamObserver<VitCheckerRequest>() {
 
 					// For each message in the stream, get one stream at a time.
 					// NOTE: YOU MAY MODIFY THE LOGIC OF onNext, onError, onCompleted BASED ON YOUR PROJECT.
 					@Override
-					public void onNext(StringRequest request) {
+					public void onNext(VitCheckerRequest request) {
 						// In bidirectional stream, both server and  client would be sending the stream of messages.
 						// Here, for each message in stream from client, server is sending back one response.
-							StringBuilder input1 = new StringBuilder(); 
-						  
-				            input1.append(request.getVal()); 
-				            input1 = input1.reverse();
-				        
+							String vitals = "Heart ok";
+							vitals += "Brain activity ok";
+							vitals += "Blood preassure low";
+										        
 				         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
-				            StringResponse reply = StringResponse.newBuilder().setVal(input1.toString()).build();
+				            VitCheckerResponse reply = VitCheckerResponse.newBuilder().setTextback(vitals).build();
 				      
 				            responseObserver.onNext(reply);
 						
@@ -72,6 +69,27 @@ public class ServerThree extends PatientMonitoringControlImplBase{
 					}
 					
 				};
+			}
+		 
+		 public void PatientUpdate(PatUpdateRequest request, StreamObserver<PatUpdateResponse> responseObserver) {
+				
+				System.out.print("Receiving patient updates");
+				
+				// Retrieve the value from the request of the client
+				String patient = (request.getText());
+				
+				// LOGIC of THE METHOD 
+				// NOTE: YOU MAY NEED TO MODIFY THIS LOGIC HERE.
+				String update = patient + "Status: Patient in observation";
+				
+				
+				// Preparing the reply for the client. Here, response is build and with the value (output) computed by above logic.  
+				PatUpdateResponse reply = PatUpdateResponse.newBuilder().setTextback(update).build();
+				
+				// Sending the reply for each request.
+				responseObserver.onNext(reply);
+				
+				responseObserver.onCompleted();
 			}
 }
 		 
