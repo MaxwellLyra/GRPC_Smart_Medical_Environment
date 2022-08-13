@@ -1,75 +1,118 @@
 package ds.serviceThree;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Logger;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.Properties;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
 
 import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlImplBase;
+import ds.serviceThree.ServerThree;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
+
 public class ServerThree extends PatientMonitoringControlImplBase{
 
-	// First we create a logger to show server side logs in the console. logger instance will be used to log different events at the server console.
-		private static final Logger logger = Logger.getLogger(ServerThree.class.getName());
+	public static void main(String[] args) {
+		ServerThree serverThree = new ServerThree();
 
-		// Main method would contain the logic to start the server.	For throws keyword refer https://www.javatpoint.com/throw-keyword
-				// NOTE: THIS LOGIC WILL BE SAME FOR ALL THE TYPES OF SERVICES
-		 public static void main(String[] args) throws IOException, InterruptedException {
-			    
-			// The StringServer is the current file name/ class name. Using an instance of this class different methods could be invoked by the client.
-			 ServerThree serverOne = new ServerThree();
-			   
-			 // This is the port number where server will be listening to clients. Refer - https://en.wikipedia.org/wiki/Port_(computer_networking)
-			    int port = 50053;
-			    
-			    // Here, we create a server on the port defined in in variable "port" and attach a service "stringserver" (instance of the class) defined above.
-			    Server server = ServerBuilder.forPort(port) // Port is defined in line 34
-			        .addService(serverOne) // Service is defined in line 31
-			        .build() // Build the server
-			        .start(); // Start the server and keep it running for clients to contact.
-			    
-			    // Giving a logging information on the server console that server has started
-			    logger.info("Server started, listening on " + port);
-			    		    
-			    // Server will be running until externally terminated.
-			    server.awaitTermination();
-		 }
-		 
-		 public StreamObserver<VitCheckerRequest> reverseStream(StreamObserver<VitCheckerResponse> responseObserver) {
-				return new StreamObserver<VitCheckerRequest>() {
+		Properties prop = serverThree.getProperties();
+		
+		serverThree.registerService(prop);
+		
+		int port = Integer.valueOf( prop.getProperty("service_port") );// #.50053;
 
-					// For each message in the stream, get one stream at a time.
-					// NOTE: YOU MAY MODIFY THE LOGIC OF onNext, onError, onCompleted BASED ON YOUR PROJECT.
-					@Override
-					public void onNext(VitCheckerRequest request) {
-						// In bidirectional stream, both server and  client would be sending the stream of messages.
-						// Here, for each message in stream from client, server is sending back one response.
-							String vitals = "Heart ok";
-							vitals += "Brain activity ok";
-							vitals += "Blood preassure low";
-										        
-				         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
-				            VitCheckerResponse reply = VitCheckerResponse.newBuilder().setTextback(vitals).build();
-				      
-				            responseObserver.onNext(reply);
-						
-					}
+		try {
 
-					@Override
-					public void onError(Throwable t) {
-						// TODO Auto-generated method stubal
-						
-					}
+			Server server = ServerBuilder.forPort(port)
+					.addService(serverThree)
+					.build()
+					.start();
 
-					@Override
-					public void onCompleted() {
-						 responseObserver.onCompleted();
-						
-					}
-					
-				};
+			System.out.println("ServerThree started, listening on " + port);
+
+			server.awaitTermination();
+
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
+	
+	private Properties getProperties() {
+		
+		Properties prop = null;		
+		
+		 try (InputStream input = new FileInputStream("src/main/resources/serverThree.properties")) {
+
+	            prop = new Properties();
+
+	            // load a properties file
+	            prop.load(input);
+
+	            // get the property value and print it out
+	            System.out.println("ServerThree properies ...");
+	            System.out.println("\t service_type: " + prop.getProperty("service_type"));
+	            System.out.println("\t service_name: " +prop.getProperty("service_name"));
+	            System.out.println("\t service_description: " +prop.getProperty("service_description"));
+		        System.out.println("\t service_port: " +prop.getProperty("service_port"));
+
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	        }
+	
+		 return prop;
+	}
+	
+	
+	private  void registerService(Properties prop) {
+		
+		 try {
+	            // Create a JmDNS instance
+	            JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	            
+	            String service_type = prop.getProperty("service_type") ;//"_serverThree._tcp.local.";
+	            String service_name = prop.getProperty("service_name")  ;// "patientMonitoringControl";
+	           
+	            // int service_port = 1234;
+	            int service_port = Integer.valueOf( prop.getProperty("service_port") );// #.50053;
+
+	            
+	            String service_description_properties = prop.getProperty("service_description")  ;//"path=index.html";
+	            
+	            // Register a service
+	            ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port, service_description_properties);
+	            jmdns.registerService(serviceInfo);
+	            
+	            System.out.printf("registrering service with type %s and name %s \n", service_type, service_name);
+	            
+	            // Wait a bit
+	            Thread.sleep(1000);
+
+	            // Unregister all services
+	            //jmdns.unregisterAllServices();
+
+	        } catch (IOException e) {
+	            System.out.println(e.getMessage());
+	        } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+	    
+	}
+	
 		 
 		 public void PatientUpdate(PatUpdateRequest request, StreamObserver<PatUpdateResponse> responseObserver) {
 				

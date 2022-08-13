@@ -53,7 +53,7 @@ public class SmartHospitalPanel implements ActionListener{
 		panel.add(entry1);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 
-		JButton button = new JButton("Invoke Service 1");
+		JButton button = new JButton("Check blood pressure");
 		button.addActionListener(this);
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -82,7 +82,7 @@ public class SmartHospitalPanel implements ActionListener{
 		panel.add(entry2);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 
-		JButton button = new JButton("Invoke Service 2");
+		JButton button = new JButton("Check IBM");
 		button.addActionListener(this);
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -103,14 +103,14 @@ public class SmartHospitalPanel implements ActionListener{
 
 		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
 
-		JLabel label = new JLabel("Type 'check'")	;
+		JLabel label = new JLabel("Patient Vitals")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 		entry3 = new JTextField("",10);
 		panel.add(entry3);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 
-		JButton button = new JButton("Invoke Service 3");
+		JButton button = new JButton("Check");
 		button.addActionListener(this);
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));

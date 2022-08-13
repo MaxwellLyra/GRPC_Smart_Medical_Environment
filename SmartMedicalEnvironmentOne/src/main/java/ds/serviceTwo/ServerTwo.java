@@ -1,8 +1,15 @@
 package ds.serviceTwo;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Logger;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.Properties;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+
+import ds.serviceTwo.ServerTwo;
 import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantImplBase;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -10,31 +17,100 @@ import io.grpc.stub.StreamObserver;
 
 public class ServerTwo extends PersonalHealthAssistantImplBase{
 
-	// First we create a logger to show server side logs in the console. logger instance will be used to log different events at the server console.
-		private static final Logger logger = Logger.getLogger(ServerTwo.class.getName());
+	public static void main(String[] args) {
+		ServerTwo serverTwo = new ServerTwo();
 
-		// Main method would contain the logic to start the server.	For throws keyword refer https://www.javatpoint.com/throw-keyword
-				// NOTE: THIS LOGIC WILL BE SAME FOR ALL THE TYPES OF SERVICES
-		 public static void main(String[] args) throws IOException, InterruptedException {
-			    
-			// The StringServer is the current file name/ class name. Using an instance of this class different methods could be invoked by the client.
-			 ServerTwo serverOne = new ServerTwo();
-			   
-			 // This is the port number where server will be listening to clients. Refer - https://en.wikipedia.org/wiki/Port_(computer_networking)
-			    int port = 50052;
-			    
-			    // Here, we create a server on the port defined in in variable "port" and attach a service "stringserver" (instance of the class) defined above.
-			    Server server = ServerBuilder.forPort(port) // Port is defined in line 34
-			        .addService(serverOne) // Service is defined in line 31
-			        .build() // Build the server
-			        .start(); // Start the server and keep it running for clients to contact.
-			    
-			    // Giving a logging information on the server console that server has started
-			    logger.info("Server started, listening on " + port);
-			    		    
-			    // Server will be running until externally terminated.
-			    server.awaitTermination();
-		 }
+		Properties prop = serverTwo.getProperties();
+		
+		serverTwo.registerService(prop);
+		
+		int port = Integer.valueOf( prop.getProperty("service_port") );// #.50052;
+
+		try {
+
+			Server server = ServerBuilder.forPort(port)
+					.addService(serverTwo)
+					.build()
+					.start();
+
+			System.out.println("ServerTwo started, listening on " + port);
+
+			server.awaitTermination();
+
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
+	
+	private Properties getProperties() {
+		
+		Properties prop = null;		
+		
+		 try (InputStream input = new FileInputStream("src/main/resources/serverTwo.properties")) {
+
+	            prop = new Properties();
+
+	            // load a properties file
+	            prop.load(input);
+
+	            // get the property value and print it out
+	            System.out.println("ServerTwo properies ...");
+	            System.out.println("\t service_type: " + prop.getProperty("service_type"));
+	            System.out.println("\t service_name: " +prop.getProperty("service_name"));
+	            System.out.println("\t service_description: " +prop.getProperty("service_description"));
+		        System.out.println("\t service_port: " +prop.getProperty("service_port"));
+
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	        }
+	
+		 return prop;
+	}
+	
+	
+	private  void registerService(Properties prop) {
+		
+		 try {
+	            // Create a JmDNS instance
+	            JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	            
+	            String service_type = prop.getProperty("service_type") ;//"_serverTwo._tcp.local.";
+	            String service_name = prop.getProperty("service_name")  ;// "personalHelthAssistant";
+	           // int service_port = 1234;
+	            int service_port = Integer.valueOf( prop.getProperty("service_port") );// #.50052;
+
+	            
+	            String service_description_properties = prop.getProperty("service_description")  ;//"path=index.html";
+	            
+	            // Register a service
+	            ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port, service_description_properties);
+	            jmdns.registerService(serviceInfo);
+	            
+	            System.out.printf("registrering service with type %s and name %s \n", service_type, service_name);
+	            
+	            // Wait a bit
+	            Thread.sleep(1000);
+
+	            // Unregister all services
+	            //jmdns.unregisterAllServices();
+
+	        } catch (IOException e) {
+	            System.out.println(e.getMessage());
+	        } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    
+	}
+	
 		 
 		 
 		 public StreamObserver<BMICalcRequest> BMICalculator(StreamObserver<BMICalcResponse> responseObserver) {
