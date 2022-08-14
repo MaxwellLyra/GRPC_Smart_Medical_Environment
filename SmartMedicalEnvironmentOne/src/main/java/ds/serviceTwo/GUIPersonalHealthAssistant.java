@@ -162,14 +162,14 @@ public class GUIPersonalHealthAssistant {
 			frame.getContentPane().add(panel_service_1);
 			panel_service_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-			JLabel lblNewLabel_1 = new JLabel("Number 1");
+			JLabel lblNewLabel_1 = new JLabel("Height");
 			panel_service_1.add(lblNewLabel_1);
 			
 			textNumber1 = new JTextField();
 			panel_service_1.add(textNumber1);
 			textNumber1.setColumns(10);
 			
-			JLabel lblNewLabel_2 = new JLabel("Number 2");
+			JLabel lblNewLabel_2 = new JLabel("Weight");
 			panel_service_1.add(lblNewLabel_2);
 			
 			textNumber2 = new JTextField();
@@ -206,11 +206,45 @@ public class GUIPersonalHealthAssistant {
 			panel_service_1.add(scrollPane);
 			
 			
-			JPanel panel_service_2 = new JPanel();
-			frame.getContentPane().add(panel_service_2);
-			
 			JPanel panel_service_3 = new JPanel();
 			frame.getContentPane().add(panel_service_3);
+			panel_service_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			
+			JLabel lblNewLabel_3 = new JLabel("Medicine's name");
+			panel_service_1.add(lblNewLabel_1);
+			
+			textNumber1 = new JTextField();
+			panel_service_1.add(textNumber1);
+			textNumber1.setColumns(10);
+			
+			JButton btnSearch = new JButton("Search");
+			btnSearch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String name = textNumber1.getText();
+					
+
+					MedStockRequest req = MedStockRequest.newBuilder().setText(name).build();
+
+					MedStockResponse response = blockingStub.MedStockResponse(req);
+
+					textResponse.append("reply:"+ response.getTextback());
+							
+					
+					System.out.println("res: " + response.getTextback());
+
+				}
+			});
+			panel_service_3.add(btnSearch);
+			
+			textResponse = new JTextArea(3, 20);
+			textResponse .setLineWrap(true);
+			textResponse.setWrapStyleWord(true);
+			
+			JScrollPane scrollPane3 = new JScrollPane(textResponse);
+			
+			//textResponse.setSize(new Dimension(15, 30));
+			panel_service_3.add(scrollPane);
 			
 			
 			

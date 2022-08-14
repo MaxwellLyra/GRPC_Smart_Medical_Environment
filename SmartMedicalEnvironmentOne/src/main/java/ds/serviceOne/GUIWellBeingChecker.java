@@ -167,23 +167,14 @@ public class GUIWellBeingChecker {
 			frame.getContentPane().add(panel_service_1);
 			panel_service_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-			JLabel lblNewLabel_1 = new JLabel("Number 1");
+			JLabel lblNewLabel_1 = new JLabel("Pulse");
 			panel_service_1.add(lblNewLabel_1);
 			
 			text1 = new JTextField();
 			panel_service_1.add(text1);
 			text1.setColumns(10);
 			
-			JLabel lblNewLabel_2 = new JLabel("Number 2");
-			panel_service_1.add(lblNewLabel_2);
-			
-			text2 = new JTextField();
-			panel_service_1.add(text2);
-			text2.setColumns(10);
-			
-		
-			
-			JButton btnCalculate = new JButton("Calculate");
+			JButton btnCalculate = new JButton("Get pulse reading");
 			btnCalculate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -193,7 +184,7 @@ public class GUIWellBeingChecker {
 							
 					PulseReadResponse response = blockingStub.PulseReading(req);
 
-					textResponse.append("reply:"+ response.getTextback());
+					textResponse.append(response.getTextback());
 					
 					System.out.println("res: " + response.getTextback());
 
@@ -214,9 +205,43 @@ public class GUIWellBeingChecker {
 			
 			JPanel panel_service_2 = new JPanel();
 			frame.getContentPane().add(panel_service_2);
+			panel_service_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			
-			JPanel panel_service_3 = new JPanel();
-			frame.getContentPane().add(panel_service_3);
+			JLabel lblNewLabel_2 = new JLabel("Pulse");
+			panel_service_2.add(lblNewLabel_1);
+			
+			text2 = new JTextField();
+			panel_service_2.add(text2);
+			text2.setColumns(10);
+			
+			JButton btnCalculate2 = new JButton("Count steps");
+			btnCalculate.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int num1 = Integer.parseInt(text2.getText());
+									
+					StepsCalcRequest req = StepsCalcRequest.newBuilder().setSteps(num1).build();
+							
+					StepsCalcResponse response = blockingStub.StepsCalculator(req);
+
+					textResponse.append(response.getTextback() + response.getStepsleft());
+					
+					System.out.println("res: " + response.getTextback() + response.getStepsleft());
+
+				}
+			});
+			
+			panel_service_2.add(btnCalculate2);
+			
+			textResponse = new JTextArea(3, 20);
+			textResponse .setLineWrap(true);
+			textResponse.setWrapStyleWord(true);
+			
+			JScrollPane scrollPane2 = new JScrollPane(textResponse);
+			
+			//textResponse.setSize(new Dimension(15, 30));
+			panel_service_1.add(scrollPane);
+			
 			
 			
 			

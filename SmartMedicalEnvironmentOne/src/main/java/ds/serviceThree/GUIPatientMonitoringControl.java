@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import ds.serviceOne.StepsCalcRequest;
+import ds.serviceOne.StepsCalcResponse;
 import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlBlockingStub;
 import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlStub;
 import io.grpc.ManagedChannel;
@@ -165,39 +167,32 @@ public class GUIPatientMonitoringControl {
 		frame.getContentPane().add(panel_service_1);
 		panel_service_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel_1 = new JLabel("Number 1");
+		JLabel lblNewLabel_1 = new JLabel("Check");
 		panel_service_1.add(lblNewLabel_1);
 		
 		textNumber1 = new JTextField();
 		panel_service_1.add(textNumber1);
 		textNumber1.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("Number 2");
-		panel_service_1.add(lblNewLabel_2);
-		
-		textNumber2 = new JTextField();
-		panel_service_1.add(textNumber2);
-		textNumber2.setColumns(10);
-		
-		JButton btnCalculate = new JButton("Calculate");
-		btnCalculate.addActionListener(new ActionListener() {
+				
+		JButton btnCheck = new JButton("Check now");
+		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int num1 = Integer.parseInt(textNumber1.getText());
-				int num2 = Integer.parseInt(textNumber2.getText());
-
+				String text = textNumber1.getText();
 				
-				CalculateRequest req = CalculateRequest.newBuilder().setNumber1(num1).setNumber2(num2).build();
-
-				CalculateResponse response = blockingStub.calculate(req);
-
-				textResponse.append("reply:"+ response.getResult() + " mes:"+ response.getMessage() + "\n");
 				
-				System.out.println("res: " + response.getResult() + " mes: " + response.getMessage());
+				VitCheckerRequest req = VitCheckerRequest.newBuilder().setText(text).build();
+
+				VitCheckerResponse response = blockingStub.VitalsChecker(req);
+
+								
+				textResponse.append(response.getTextback());
+				
+				System.out.println("res: " + response.getTextback());
 
 			}
 		});
-		panel_service_1.add(btnCalculate);
+		panel_service_1.add(btnCheck);
 		
 		textResponse = new JTextArea(3, 20);
 		textResponse .setLineWrap(true);
@@ -211,13 +206,47 @@ public class GUIPatientMonitoringControl {
 		
 		JPanel panel_service_2 = new JPanel();
 		frame.getContentPane().add(panel_service_2);
+		panel_service_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JPanel panel_service_3 = new JPanel();
-		frame.getContentPane().add(panel_service_3);
+		JLabel lblNewLabel_2 = new JLabel("Pulse");
+		panel_service_2.add(lblNewLabel_2);
+		
+		textNumber2 = new JTextField();
+		panel_service_2.add(textNumber2);
+		textNumber2.setColumns(10);
+		
+		JButton btnCalculate2 = new JButton("Count steps");
+		btnCalculate2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int steps = Integer.parseInt(textNumber2.getText());
+						
+								
+				StepsCalcRequest req = StepsCalcRequest.newBuilder().setSteps(num1).build();
+						
+				StepsCalcResponse response = blockingStub.StepsCalculator(req);
+
+				textResponse.append(response.getTextback() + response.getStepsleft());
+				
+				System.out.println("res: " + response.getTextback() + response.getStepsleft());
+
+			}
+		});
+		
+		panel_service_2.add(btnCalculate2);
+		
+		textResponse = new JTextArea(3, 20);
+		textResponse .setLineWrap(true);
+		textResponse.setWrapStyleWord(true);
+		
+		JScrollPane scrollPane2 = new JScrollPane(textResponse);
+		
+		//textResponse.setSize(new Dimension(15, 30));
+		panel_service_1.add(scrollPane);
+		
 		
 		
 		
 	}
 
 }
-
