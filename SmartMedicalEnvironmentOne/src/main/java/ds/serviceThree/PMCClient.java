@@ -17,7 +17,7 @@ public class PMCClient {
 	public static void main(String[] args) {
 
 		ManagedChannel channel = ManagedChannelBuilder
-				.forAddress("localhost", 50052)
+				.forAddress("localhost", 50053)
 				.usePlaintext()
 				.build();
 
