@@ -44,8 +44,8 @@ public final class ServiceTwoImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\035PersonalHealthAssistant.proto\022\010service" +
-      "2\"0\n\016BMICalcRequest\022\016\n\006weigth\030\001 \001(\005\022\016\n\006h" +
-      "eight\030\002 \001(\005\"!\n\017BMICalcResponse\022\016\n\006result" +
+      "2\"0\n\016BMICalcRequest\022\016\n\006height\030\002 \001(\005\022\016\n\006w" +
+      "eigth\030\001 \001(\005\"!\n\017BMICalcResponse\022\016\n\006result" +
       "\030\001 \001(\005\"\037\n\017MedStockRequest\022\014\n\004text\030\001 \001(\t\"" +
       "$\n\020MedStockResponse\022\020\n\010textback\030\001 \001(\t2\257\001" +
       "\n\027PersonalHealthAssistant\022H\n\rBMICalculat" +
@@ -72,7 +72,7 @@ public final class ServiceTwoImpl {
     internal_static_service2_BMICalcRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_service2_BMICalcRequest_descriptor,
-        new java.lang.String[] { "Weigth", "Height", });
+        new java.lang.String[] { "Height", "Weigth", });
     internal_static_service2_BMICalcResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_service2_BMICalcResponse_fieldAccessorTable = new

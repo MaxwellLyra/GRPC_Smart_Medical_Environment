@@ -1,4 +1,4 @@
-package ds.serviceOne;
+package ds.serviceTwo;
 
 import java.awt.EventQueue;
 
@@ -18,11 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import ds.serviceOne.PulseReadRequest;
-import ds.serviceOne.PulseReadResponse;
-import ds.serviceOne.WellBeingCheckerGrpc;
-import ds.serviceOne.WellBeingCheckerGrpc.WellBeingCheckerBlockingStub;
-import ds.serviceOne.WellBeingCheckerGrpc.WellBeingCheckerStub;
+import ds.serviceTwo.BMICalcRequest;
+import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantBlockingStub;
+import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantStub;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -33,17 +31,17 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 
-public class GUIWellBeingChecker {
+public class GUIPersonalHealthAssistant {
 
-		private static WellBeingCheckerBlockingStub blockingStub;
-		private static WellBeingCheckerStub asyncStub;
+		private static PersonalHealthAssistantBlockingStub blockingStub;
+		private static PersonalHealthAssistantStub asyncStub;
 
-		private ServiceInfo ServiceInfo;
+		private ServiceInfo serviceInfo;
 		
 		
 		private JFrame frame;
-		private JTextField text1;
-		private JTextField text2;
+		private JTextField textNumber1;
+		private JTextField textNumber2;
 		private JTextArea textResponse ;
 
 		/**
@@ -53,7 +51,7 @@ public class GUIWellBeingChecker {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						GUIWellBeingChecker window = new GUIWellBeingChecker();
+						GUIPersonalHealthAssistant window = new GUIPersonalHealthAssistant();
 						window.frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -65,13 +63,13 @@ public class GUIWellBeingChecker {
 		/**
 		 * Create the application.
 		 */
-		public GUIWellBeingChecker() {
+		public GUIPersonalHealthAssistant() {
 			
-			String service_type = "_serverOne._tcp.local.";
+			String service_type = "_serverTwo._tcp.local.";
 			discoverService(service_type);
 			
-			String host = ServiceInfo.getHostAddresses()[0];
-			int port = ServiceInfo.getPort();
+			String host = serviceInfo.getHostAddresses()[0];
+			int port = serviceInfo.getPort();
 			
 			ManagedChannel channel = ManagedChannelBuilder
 					.forAddress(host, port)
@@ -79,9 +77,9 @@ public class GUIWellBeingChecker {
 					.build();
 
 			//stubs -- generate from proto
-			blockingStub = WellBeingCheckerGrpc.newBlockingStub(channel);
+			blockingStub = PersonalHealthAssistantGrpc.newBlockingStub(channel);
 
-			asyncStub = WellBeingCheckerGrpc.newStub(channel);
+			asyncStub = PersonalHealthAssistantGrpc.newStub(channel);
 
 			
 			initialize();
@@ -103,23 +101,23 @@ public class GUIWellBeingChecker {
 					public void serviceResolved(ServiceEvent event) {
 						System.out.println("Service resolved: " + event.getInfo());
 
-						ServiceInfo = event.getInfo();
+						serviceInfo = event.getInfo();
 
-						int port = ServiceInfo.getPort();
+						int port = serviceInfo.getPort();
 						
 						System.out.println("resolving " + service_type + " with properties ...");
 						System.out.println("\t port: " + port);
 						System.out.println("\t type:"+ event.getType());
 						System.out.println("\t name: " + event.getName());
-						System.out.println("\t description/properties: " + ServiceInfo.getNiceTextString());
-						System.out.println("\t host: " + ServiceInfo.getHostAddresses()[0]);
+						System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
+						System.out.println("\t host: " + serviceInfo.getHostAddresses()[0]);
 					
 						
 					}
 					
 					@Override
 					public void serviceRemoved(ServiceEvent event) {
-						System.out.println("Service removed: " + event.getInfo());
+						System.out.println("Math Service removed: " + event.getInfo());
 
 						
 					}
@@ -170,36 +168,35 @@ public class GUIWellBeingChecker {
 			JLabel lblNewLabel_1 = new JLabel("Number 1");
 			panel_service_1.add(lblNewLabel_1);
 			
-			text1 = new JTextField();
-			panel_service_1.add(text1);
-			text1.setColumns(10);
+			textNumber1 = new JTextField();
+			panel_service_1.add(textNumber1);
+			textNumber1.setColumns(10);
 			
 			JLabel lblNewLabel_2 = new JLabel("Number 2");
 			panel_service_1.add(lblNewLabel_2);
 			
-			text2 = new JTextField();
-			panel_service_1.add(text2);
-			text2.setColumns(10);
+			textNumber2 = new JTextField();
+			panel_service_1.add(textNumber2);
+			textNumber2.setColumns(10);
 			
-		
-			
+						
 			JButton btnCalculate = new JButton("Calculate");
 			btnCalculate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					int num1 = Integer.parseInt(text1.getText());
-									
-					PulseReadRequest req = PulseReadRequest.newBuilder().setNum(num1).build();
-							
-					PulseReadResponse response = blockingStub.PulseReading(req);
+					int num1 = Integer.parseInt(textNumber1.getText());
+					int num2 = Integer.parseInt(textNumber2.getText());
 
-					textResponse.append("reply:"+ response.getTextback());
+					BMICalcRequest req = BMICalcRequest.newBuilder().setHeight(num1).setWeigth(num2).build();
+
+					BMICalcResponse response = blockingStub.BMICalculator(req);
+
+					textResponse.append("reply:"+ response.getResult() + "\n");
 					
-					System.out.println("res: " + response.getTextback());
+					System.out.println("res: " + response.getResult());
 
 				}
 			});
-			
 			panel_service_1.add(btnCalculate);
 			
 			textResponse = new JTextArea(3, 20);
@@ -222,4 +219,4 @@ public class GUIWellBeingChecker {
 			
 		}
 
-	}
+}

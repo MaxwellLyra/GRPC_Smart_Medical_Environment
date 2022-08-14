@@ -83,7 +83,7 @@ public class ServerTwo extends PersonalHealthAssistantImplBase{
 	            JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 	            
 	            String service_type = prop.getProperty("service_type") ;//"_serverTwo._tcp.local.";
-	            String service_name = prop.getProperty("service_name")  ;// "personalHelthAssistant";
+	            String service_name = prop.getProperty("service_name")  ;// "personalHealthAssistant";
 	           // int service_port = 1234;
 	            int service_port = Integer.valueOf( prop.getProperty("service_port") );// #.50052;
 

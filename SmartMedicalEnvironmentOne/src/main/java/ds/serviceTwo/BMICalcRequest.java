@@ -16,8 +16,8 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private BMICalcRequest() {
-    weigth_ = 0;
     height_ = 0;
+    weigth_ = 0;
   }
 
   @java.lang.Override
@@ -86,15 +86,6 @@ private static final long serialVersionUID = 0L;
             ds.serviceTwo.BMICalcRequest.class, ds.serviceTwo.BMICalcRequest.Builder.class);
   }
 
-  public static final int WEIGTH_FIELD_NUMBER = 1;
-  private int weigth_;
-  /**
-   * <code>int32 weigth = 1;</code>
-   */
-  public int getWeigth() {
-    return weigth_;
-  }
-
   public static final int HEIGHT_FIELD_NUMBER = 2;
   private int height_;
   /**
@@ -102,6 +93,15 @@ private static final long serialVersionUID = 0L;
    */
   public int getHeight() {
     return height_;
+  }
+
+  public static final int WEIGTH_FIELD_NUMBER = 1;
+  private int weigth_;
+  /**
+   * <code>int32 weigth = 1;</code>
+   */
+  public int getWeigth() {
+    return weigth_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -157,10 +157,10 @@ private static final long serialVersionUID = 0L;
     ds.serviceTwo.BMICalcRequest other = (ds.serviceTwo.BMICalcRequest) obj;
 
     boolean result = true;
-    result = result && (getWeigth()
-        == other.getWeigth());
     result = result && (getHeight()
         == other.getHeight());
+    result = result && (getWeigth()
+        == other.getWeigth());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -172,10 +172,10 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + WEIGTH_FIELD_NUMBER;
-    hash = (53 * hash) + getWeigth();
     hash = (37 * hash) + HEIGHT_FIELD_NUMBER;
     hash = (53 * hash) + getHeight();
+    hash = (37 * hash) + WEIGTH_FIELD_NUMBER;
+    hash = (53 * hash) + getWeigth();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -309,9 +309,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      weigth_ = 0;
-
       height_ = 0;
+
+      weigth_ = 0;
 
       return this;
     }
@@ -339,8 +339,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public ds.serviceTwo.BMICalcRequest buildPartial() {
       ds.serviceTwo.BMICalcRequest result = new ds.serviceTwo.BMICalcRequest(this);
-      result.weigth_ = weigth_;
       result.height_ = height_;
+      result.weigth_ = weigth_;
       onBuilt();
       return result;
     }
@@ -389,11 +389,11 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(ds.serviceTwo.BMICalcRequest other) {
       if (other == ds.serviceTwo.BMICalcRequest.getDefaultInstance()) return this;
-      if (other.getWeigth() != 0) {
-        setWeigth(other.getWeigth());
-      }
       if (other.getHeight() != 0) {
         setHeight(other.getHeight());
+      }
+      if (other.getWeigth() != 0) {
+        setWeigth(other.getWeigth());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -424,32 +424,6 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int weigth_ ;
-    /**
-     * <code>int32 weigth = 1;</code>
-     */
-    public int getWeigth() {
-      return weigth_;
-    }
-    /**
-     * <code>int32 weigth = 1;</code>
-     */
-    public Builder setWeigth(int value) {
-      
-      weigth_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 weigth = 1;</code>
-     */
-    public Builder clearWeigth() {
-      
-      weigth_ = 0;
-      onChanged();
-      return this;
-    }
-
     private int height_ ;
     /**
      * <code>int32 height = 2;</code>
@@ -472,6 +446,32 @@ private static final long serialVersionUID = 0L;
     public Builder clearHeight() {
       
       height_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int weigth_ ;
+    /**
+     * <code>int32 weigth = 1;</code>
+     */
+    public int getWeigth() {
+      return weigth_;
+    }
+    /**
+     * <code>int32 weigth = 1;</code>
+     */
+    public Builder setWeigth(int value) {
+      
+      weigth_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 weigth = 1;</code>
+     */
+    public Builder clearWeigth() {
+      
+      weigth_ = 0;
       onChanged();
       return this;
     }

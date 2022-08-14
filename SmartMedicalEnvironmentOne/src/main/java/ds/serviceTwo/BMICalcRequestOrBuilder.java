@@ -8,12 +8,12 @@ public interface BMICalcRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 weigth = 1;</code>
-   */
-  int getWeigth();
-
-  /**
    * <code>int32 height = 2;</code>
    */
   int getHeight();
+
+  /**
+   * <code>int32 weigth = 1;</code>
+   */
+  int getWeigth();
 }
