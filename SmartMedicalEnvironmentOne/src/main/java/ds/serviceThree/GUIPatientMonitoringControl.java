@@ -1,4 +1,4 @@
-package ds.examples.maths;
+package ds.serviceThree;
 
 
 import java.awt.EventQueue;
@@ -19,9 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import ds.examples.maths.CalculateRequest.Operation;
-import ds.examples.maths.MathServiceGrpc.MathServiceBlockingStub;
-import ds.examples.maths.MathServiceGrpc.MathServiceStub;
+import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlBlockingStub;
+import ds.serviceThree.PatientMonitoringControlGrpc.PatientMonitoringControlStub;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -32,12 +31,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 
-public class MainGUIApplication {
+public class GUIPatientMonitoringControl {
 
-	private static MathServiceBlockingStub blockingStub;
-	private static MathServiceStub asyncStub;
+	private static PatientMonitoringControlBlockingStub blockingStub;
+	private static PatientMonitoringControlStub asyncStub;
 
-	private ServiceInfo mathServiceInfo;
+	private ServiceInfo serviceInfo;
 	
 	
 	private JFrame frame;
@@ -52,7 +51,7 @@ public class MainGUIApplication {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainGUIApplication window = new MainGUIApplication();
+					GUIPatientMonitoringControl window = new GUIPatientMonitoringControl();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,13 +63,13 @@ public class MainGUIApplication {
 	/**
 	 * Create the application.
 	 */
-	public MainGUIApplication() {
+	public GUIPatientMonitoringControl() {
 		
-		String math_service_type = "_maths._tcp.local.";
-		discoverMathService(math_service_type);
+		String service_type = "_serverThree._tcp.local.";
+		discoverService(service_type);
 		
-		String host = mathServiceInfo.getHostAddresses()[0];
-		int port = mathServiceInfo.getPort();
+		String host = serviceInfo.getHostAddresses()[0];
+		int port = serviceInfo.getPort();
 		
 		ManagedChannel channel = ManagedChannelBuilder
 				.forAddress(host, port)
@@ -78,9 +77,9 @@ public class MainGUIApplication {
 				.build();
 
 		//stubs -- generate from proto
-		blockingStub = MathServiceGrpc.newBlockingStub(channel);
+		blockingStub = PatientMonitoringControlGrpc.newBlockingStub(channel);
 
-		asyncStub = MathServiceGrpc.newStub(channel);
+		asyncStub = PatientMonitoringControlGrpc.newStub(channel);
 
 		
 		initialize();
@@ -88,7 +87,7 @@ public class MainGUIApplication {
 
 	
 	
-	private void discoverMathService(String service_type) {
+	private void discoverService(String service_type) {
 		
 		
 		try {
@@ -102,16 +101,16 @@ public class MainGUIApplication {
 				public void serviceResolved(ServiceEvent event) {
 					System.out.println("Math Service resolved: " + event.getInfo());
 
-					mathServiceInfo = event.getInfo();
+					serviceInfo = event.getInfo();
 
-					int port = mathServiceInfo.getPort();
+					int port = serviceInfo.getPort();
 					
 					System.out.println("resolving " + service_type + " with properties ...");
 					System.out.println("\t port: " + port);
 					System.out.println("\t type:"+ event.getType());
 					System.out.println("\t name: " + event.getName());
-					System.out.println("\t description/properties: " + mathServiceInfo.getNiceTextString());
-					System.out.println("\t host: " + mathServiceInfo.getHostAddresses()[0]);
+					System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
+					System.out.println("\t host: " + serviceInfo.getHostAddresses()[0]);
 				
 					
 				}
@@ -180,12 +179,6 @@ public class MainGUIApplication {
 		panel_service_1.add(textNumber2);
 		textNumber2.setColumns(10);
 		
-		
-		JComboBox comboOperation = new JComboBox();
-		comboOperation.setModel(new DefaultComboBoxModel(new String[] {"ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION"}));
-		panel_service_1.add(comboOperation);
-	
-		
 		JButton btnCalculate = new JButton("Calculate");
 		btnCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -193,10 +186,8 @@ public class MainGUIApplication {
 				int num1 = Integer.parseInt(textNumber1.getText());
 				int num2 = Integer.parseInt(textNumber2.getText());
 
-				int index = comboOperation.getSelectedIndex();
-				Operation operation = Operation.forNumber(index);
 				
-				CalculateRequest req = CalculateRequest.newBuilder().setNumber1(num1).setNumber2(num2).setOperation(operation).build();
+				CalculateRequest req = CalculateRequest.newBuilder().setNumber1(num1).setNumber2(num2).build();
 
 				CalculateResponse response = blockingStub.calculate(req);
 

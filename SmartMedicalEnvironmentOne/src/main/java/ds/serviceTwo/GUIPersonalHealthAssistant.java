@@ -11,14 +11,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import ds.serviceTwo.BMICalcRequest;
 import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantBlockingStub;
 import ds.serviceTwo.PersonalHealthAssistantGrpc.PersonalHealthAssistantStub;
 import io.grpc.ManagedChannel;

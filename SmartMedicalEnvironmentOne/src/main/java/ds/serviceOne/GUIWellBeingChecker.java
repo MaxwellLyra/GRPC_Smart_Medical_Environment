@@ -191,7 +191,7 @@ public class GUIWellBeingChecker {
 									
 					PulseReadRequest req = PulseReadRequest.newBuilder().setNum(num1).build();
 							
-					PulseReadResponse response = PulseReadResponse.newBuilder().setTextback("hi").build();
+					PulseReadResponse response = blockingStub.PulseReading(req);
 
 					textResponse.append("reply:"+ response.getTextback());
 					
