@@ -24,7 +24,7 @@ service WellBeingChecker {
 
 	// define each variable in rpc method separately
 	message PulseReadRequest {
-	string text = 1;
+	int32 num = 1;
 	}
 
 	message PulseReadResponse {
@@ -32,7 +32,7 @@ service WellBeingChecker {
 	}
 
 	message StepsCalcRequest {
-	string text = 1;
+	int32 num = 1;
 	}
 
 	message StepsCalcResponse {

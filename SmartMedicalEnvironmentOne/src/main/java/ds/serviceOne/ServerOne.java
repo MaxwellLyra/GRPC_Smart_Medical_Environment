@@ -123,7 +123,7 @@ public class ServerOne extends WellBeingCheckerImplBase {
 						// Here, for each message in stream from client, server is sending back one response.
 							StringBuilder input1 = new StringBuilder(); 
 						  
-				            input1.append(request.getText()); 
+				            input1.append(request.getNum());
 				           
 				        
 				         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
@@ -162,7 +162,7 @@ public class ServerOne extends WellBeingCheckerImplBase {
 							// Here, for each message in stream from client, server is sending back one response.
 								StringBuilder input = new StringBuilder(); 
 							  
-					            input.append(value.getText()); 
+					            input.append(value.getNum()); 
 					           
 					        
 					         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.

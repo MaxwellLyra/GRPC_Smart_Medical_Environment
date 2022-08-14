@@ -8,12 +8,7 @@ public interface PulseReadRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string text = 1;</code>
+   * <code>int32 num = 1;</code>
    */
-  java.lang.String getText();
-  /**
-   * <code>string text = 1;</code>
-   */
-  com.google.protobuf.ByteString
-      getTextBytes();
+  int getNum();
 }

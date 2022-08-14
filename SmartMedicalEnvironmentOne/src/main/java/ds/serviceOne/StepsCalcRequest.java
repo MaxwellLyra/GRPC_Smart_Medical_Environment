@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private StepsCalcRequest() {
-    text_ = "";
+    num_ = 0;
   }
 
   @java.lang.Override
@@ -43,10 +43,9 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 8: {
 
-            text_ = s;
+            num_ = input.readInt32();
             break;
           }
           default: {
@@ -81,38 +80,13 @@ private static final long serialVersionUID = 0L;
             ds.serviceOne.StepsCalcRequest.class, ds.serviceOne.StepsCalcRequest.Builder.class);
   }
 
-  public static final int TEXT_FIELD_NUMBER = 1;
-  private volatile java.lang.Object text_;
+  public static final int NUM_FIELD_NUMBER = 1;
+  private int num_;
   /**
-   * <code>string text = 1;</code>
+   * <code>int32 num = 1;</code>
    */
-  public java.lang.String getText() {
-    java.lang.Object ref = text_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      text_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string text = 1;</code>
-   */
-  public com.google.protobuf.ByteString
-      getTextBytes() {
-    java.lang.Object ref = text_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      text_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public int getNum() {
+    return num_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -129,8 +103,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getTextBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, text_);
+    if (num_ != 0) {
+      output.writeInt32(1, num_);
     }
     unknownFields.writeTo(output);
   }
@@ -141,8 +115,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getTextBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, text_);
+    if (num_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(1, num_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -160,8 +135,8 @@ private static final long serialVersionUID = 0L;
     ds.serviceOne.StepsCalcRequest other = (ds.serviceOne.StepsCalcRequest) obj;
 
     boolean result = true;
-    result = result && getText()
-        .equals(other.getText());
+    result = result && (getNum()
+        == other.getNum());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -173,8 +148,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + TEXT_FIELD_NUMBER;
-    hash = (53 * hash) + getText().hashCode();
+    hash = (37 * hash) + NUM_FIELD_NUMBER;
+    hash = (53 * hash) + getNum();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -308,7 +283,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      text_ = "";
+      num_ = 0;
 
       return this;
     }
@@ -336,7 +311,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public ds.serviceOne.StepsCalcRequest buildPartial() {
       ds.serviceOne.StepsCalcRequest result = new ds.serviceOne.StepsCalcRequest(this);
-      result.text_ = text_;
+      result.num_ = num_;
       onBuilt();
       return result;
     }
@@ -385,9 +360,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(ds.serviceOne.StepsCalcRequest other) {
       if (other == ds.serviceOne.StepsCalcRequest.getDefaultInstance()) return this;
-      if (!other.getText().isEmpty()) {
-        text_ = other.text_;
-        onChanged();
+      if (other.getNum() != 0) {
+        setNum(other.getNum());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -418,71 +392,28 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object text_ = "";
+    private int num_ ;
     /**
-     * <code>string text = 1;</code>
+     * <code>int32 num = 1;</code>
      */
-    public java.lang.String getText() {
-      java.lang.Object ref = text_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        text_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public int getNum() {
+      return num_;
     }
     /**
-     * <code>string text = 1;</code>
+     * <code>int32 num = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getTextBytes() {
-      java.lang.Object ref = text_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        text_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string text = 1;</code>
-     */
-    public Builder setText(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      text_ = value;
+    public Builder setNum(int value) {
+      
+      num_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string text = 1;</code>
+     * <code>int32 num = 1;</code>
      */
-    public Builder clearText() {
+    public Builder clearNum() {
       
-      text_ = getDefaultInstance().getText();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string text = 1;</code>
-     */
-    public Builder setTextBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      text_ = value;
+      num_ = 0;
       onChanged();
       return this;
     }

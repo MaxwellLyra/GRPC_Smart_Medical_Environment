@@ -43,17 +43,17 @@ public final class ServiceOneImpl {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026WellBeingChecker.proto\022\010service1\" \n\020Pu" +
-      "lseReadRequest\022\014\n\004text\030\001 \001(\t\"%\n\021PulseRea" +
-      "dResponse\022\020\n\010textback\030\001 \001(\t\" \n\020StepsCalc" +
-      "Request\022\014\n\004text\030\001 \001(\t\"%\n\021StepsCalcRespon" +
-      "se\022\020\n\010textback\030\001 \001(\t2\261\001\n\020WellBeingChecke" +
-      "r\022M\n\014PulseReading\022\032.service1.PulseReadRe" +
-      "quest\032\033.service1.PulseReadResponse\"\000(\0010\001" +
-      "\022N\n\017StepsCalculator\022\032.service1.StepsCalc" +
-      "Request\032\033.service1.StepsCalcResponse\"\000(\001" +
-      "B!\n\rds.serviceOneB\016ServiceOneImplP\001b\006pro" +
-      "to3"
+      "\n\026WellBeingChecker.proto\022\010service1\"\037\n\020Pu" +
+      "lseReadRequest\022\013\n\003num\030\001 \001(\005\"%\n\021PulseRead" +
+      "Response\022\020\n\010textback\030\001 \001(\t\"\037\n\020StepsCalcR" +
+      "equest\022\013\n\003num\030\001 \001(\005\"%\n\021StepsCalcResponse" +
+      "\022\020\n\010textback\030\001 \001(\t2\261\001\n\020WellBeingChecker\022" +
+      "M\n\014PulseReading\022\032.service1.PulseReadRequ" +
+      "est\032\033.service1.PulseReadResponse\"\000(\0010\001\022N" +
+      "\n\017StepsCalculator\022\032.service1.StepsCalcRe" +
+      "quest\032\033.service1.StepsCalcResponse\"\000(\001B!" +
+      "\n\rds.serviceOneB\016ServiceOneImplP\001b\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -72,7 +72,7 @@ public final class ServiceOneImpl {
     internal_static_service1_PulseReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_service1_PulseReadRequest_descriptor,
-        new java.lang.String[] { "Text", });
+        new java.lang.String[] { "Num", });
     internal_static_service1_PulseReadResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_service1_PulseReadResponse_fieldAccessorTable = new
@@ -84,7 +84,7 @@ public final class ServiceOneImpl {
     internal_static_service1_StepsCalcRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_service1_StepsCalcRequest_descriptor,
-        new java.lang.String[] { "Text", });
+        new java.lang.String[] { "Num", });
     internal_static_service1_StepsCalcResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_service1_StepsCalcResponse_fieldAccessorTable = new
