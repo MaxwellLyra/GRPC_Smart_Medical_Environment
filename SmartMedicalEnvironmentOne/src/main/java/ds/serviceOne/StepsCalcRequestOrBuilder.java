@@ -8,7 +8,7 @@ public interface StepsCalcRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 num = 1;</code>
+   * <code>int32 steps = 1;</code>
    */
-  int getNum();
+  int getSteps();
 }

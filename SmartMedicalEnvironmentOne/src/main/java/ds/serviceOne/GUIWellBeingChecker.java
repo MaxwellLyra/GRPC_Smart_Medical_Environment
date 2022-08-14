@@ -38,7 +38,7 @@ public class GUIWellBeingChecker {
 		private static WellBeingCheckerBlockingStub blockingStub;
 		private static WellBeingCheckerStub asyncStub;
 
-		private ServiceInfo ServiceInfo;
+		private ServiceInfo serviceInfo;
 		
 		
 		private JFrame frame;
@@ -70,8 +70,8 @@ public class GUIWellBeingChecker {
 			String service_type = "_serverOne._tcp.local.";
 			discoverService(service_type);
 			
-			String host = ServiceInfo.getHostAddresses()[0];
-			int port = ServiceInfo.getPort();
+			String host = serviceInfo.getHostAddresses()[0];
+			int port = serviceInfo.getPort();
 			
 			ManagedChannel channel = ManagedChannelBuilder
 					.forAddress(host, port)
@@ -103,16 +103,16 @@ public class GUIWellBeingChecker {
 					public void serviceResolved(ServiceEvent event) {
 						System.out.println("Service resolved: " + event.getInfo());
 
-						ServiceInfo = event.getInfo();
+						serviceInfo = event.getInfo();
 
-						int port = ServiceInfo.getPort();
+						int port = serviceInfo.getPort();
 						
 						System.out.println("resolving " + service_type + " with properties ...");
 						System.out.println("\t port: " + port);
 						System.out.println("\t type:"+ event.getType());
 						System.out.println("\t name: " + event.getName());
-						System.out.println("\t description/properties: " + ServiceInfo.getNiceTextString());
-						System.out.println("\t host: " + ServiceInfo.getHostAddresses()[0]);
+						System.out.println("\t description/properties: " + serviceInfo.getNiceTextString());
+						System.out.println("\t host: " + serviceInfo.getHostAddresses()[0]);
 					
 						
 					}

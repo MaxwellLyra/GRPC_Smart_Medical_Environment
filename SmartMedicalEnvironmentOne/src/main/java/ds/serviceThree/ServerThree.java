@@ -113,7 +113,55 @@ public class ServerThree extends PatientMonitoringControlImplBase{
 	    
 	}
 	
-		 
+	// rpc method for Bidirectional Streaming calls
+	public StreamObserver<VitCheckerRequest> VitalsChecker(StreamObserver<VitCheckerResponse> responseObserver) {
+		
+		return new StreamObserver<VitCheckerRequest>() {
+			
+			@Override
+			public void onNext(VitCheckerRequest request) {
+				// In bidirectional stream, both server and client would be sending the stream
+				// of messages.
+				// Here, for each message in stream from client, server is sending back one
+				// response.
+
+				String name = request.getText();
+				String output = "";
+				
+				if (name.equalsIgnoreCase("Heart")) {
+					output = "High heart rate";
+				}
+				else if (name.equalsIgnoreCase("Brain")) {
+					output = "Normal brain activity";
+				}
+				else if (name.equalsIgnoreCase("Pulse")) {
+					output = "Low pulse";
+				}
+				
+				// Preparing and sending the reply for the client.				
+				VitCheckerResponse reply = VitCheckerResponse.newBuilder().setTextback(output).build();
+
+				responseObserver.onNext(reply);
+				;
+
+
+			}
+
+			@Override
+			public void onError(Throwable t) {
+
+			}
+
+			@Override
+			public void onCompleted() {
+				responseObserver.onCompleted();
+
+			}
+
+		};
+	}
+		
+	// rpc method for Server Streaming calls
 		 public void PatientUpdate(PatUpdateRequest request, StreamObserver<PatUpdateResponse> responseObserver) {
 				
 				System.out.print("Receiving patient updates");

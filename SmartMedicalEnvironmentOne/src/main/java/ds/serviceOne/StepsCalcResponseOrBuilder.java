@@ -16,4 +16,9 @@ public interface StepsCalcResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getTextbackBytes();
+
+  /**
+   * <code>int32 stepsleft = 2;</code>
+   */
+  int getStepsleft();
 }

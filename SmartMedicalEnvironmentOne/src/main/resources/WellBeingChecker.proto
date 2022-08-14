@@ -32,9 +32,10 @@ service WellBeingChecker {
 	}
 
 	message StepsCalcRequest {
-	int32 num = 1;
+	int32 steps = 1;
 	}
 
 	message StepsCalcResponse {
 	string textback = 1;
+	int32 stepsleft = 2;
 	}

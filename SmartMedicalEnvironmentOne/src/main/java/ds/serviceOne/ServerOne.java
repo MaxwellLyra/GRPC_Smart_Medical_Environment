@@ -1,5 +1,6 @@
 package ds.serviceOne;
 
+//libraries' imports
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,29 +15,26 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
+// creating a class for ServerOne
 public class ServerOne extends WellBeingCheckerImplBase {
 
-
 	public static void main(String[] args) {
+		// instantiating server and registering info
 		ServerOne serverOne = new ServerOne();
 
 		Properties prop = serverOne.getProperties();
-		
+
 		serverOne.registerService(prop);
-		
-		int port = Integer.valueOf( prop.getProperty("service_port") );// #.50051;
+
+		int port = Integer.valueOf(prop.getProperty("service_port"));// #.50051;
 
 		try {
 
-			Server server = ServerBuilder.forPort(port)
-					.addService(serverOne)
-					.build()
-					.start();
+			Server server = ServerBuilder.forPort(port).addService(serverOne).build().start();
 
 			System.out.println("ServerOne started, listening on " + port);
 
 			server.awaitTermination();
-
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -46,145 +44,154 @@ public class ServerOne extends WellBeingCheckerImplBase {
 			e.printStackTrace();
 		}
 
-
 	}
 
-	
 	private Properties getProperties() {
-		
-		Properties prop = null;		
-		
-		 try (InputStream input = new FileInputStream("src/main/resources/serverOne.properties")) {
 
-	            prop = new Properties();
+		Properties prop = null;
 
-	            // load a properties file
-	            prop.load(input);
+		try (InputStream input = new FileInputStream("src/main/resources/serverOne.properties")) {
 
-	            // get the property value and print it out
-	            System.out.println("ServerOne properies ...");
-	            System.out.println("\t service_type: " + prop.getProperty("service_type"));
-	            System.out.println("\t service_name: " +prop.getProperty("service_name"));
-	            System.out.println("\t service_description: " +prop.getProperty("service_description"));
-		        System.out.println("\t service_port: " +prop.getProperty("service_port"));
+			prop = new Properties();
 
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-	
-		 return prop;
+			// load properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			System.out.println("ServerOne properies ...");
+			System.out.println("\t service_type: " + prop.getProperty("service_type"));
+			System.out.println("\t service_name: " + prop.getProperty("service_name"));
+			System.out.println("\t service_description: " + prop.getProperty("service_description"));
+			System.out.println("\t service_port: " + prop.getProperty("service_port"));
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+		return prop;
 	}
-	
-	
-	private  void registerService(Properties prop) {
-		
-		 try {
-	            // Create a JmDNS instance
-	            JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-	            
-	            String service_type = prop.getProperty("service_type") ;//"_serverOne._tcp.local.";
-	            String service_name = prop.getProperty("service_name")  ;// "wellBeingChecker";
-	           // int service_port = 1234;
-	            int service_port = Integer.valueOf( prop.getProperty("service_port") );// #.50051;
 
-	            
-	            String service_description_properties = prop.getProperty("service_description")  ;//"path=index.html";
-	            
-	            // Register a service
-	            ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port, service_description_properties);
-	            jmdns.registerService(serviceInfo);
-	            
-	            System.out.printf("registrering service with type %s and name %s \n", service_type, service_name);
-	            
-	            // Wait a bit
-	            Thread.sleep(1000);
+	private void registerService(Properties prop) {
 
-	            // Unregister all services
-	            //jmdns.unregisterAllServices();
+		try {
+			// Create a JmDNS instance
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 
-	        } catch (IOException e) {
-	            System.out.println(e.getMessage());
-	        } catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			String service_type = prop.getProperty("service_type");// "_http._tcp.local.";
+			String service_name = prop.getProperty("service_name");// "wellBeingChecker";
+			// int service_port = 1234;
+			int service_port = Integer.valueOf(prop.getProperty("service_port"));// #.50051;
+
+			String service_description_properties = prop.getProperty("service_description");// "path=index.html";
+
+			// Register a service
+			ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port,
+					service_description_properties);
+			jmdns.registerService(serviceInfo);
+
+			System.out.printf("registrering service with type %s and name %s \n", service_type, service_name);
+
+			// Wait a bit
+			Thread.sleep(1000);
+
+			// Unregister all services
+			// jmdns.unregisterAllServices();
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	// rpc method for Bidirectional Streaming calls
+	public StreamObserver<PulseReadRequest> PulseReading(StreamObserver<PulseReadResponse> responseObserver) {
+		return new StreamObserver<PulseReadRequest>() {
+
+			@Override
+			public void onNext(PulseReadRequest request) {
+				// In bidirectional stream, both server and client would be sending the stream
+				// of messages.
+				// Here, for each message in stream from client, server is sending back one
+				// response.
+
+				int input = request.getNum();
+				String msg = "low rate";
+
+				if (input > 28) {
+					msg = "high rate";
+				}
+				else if (input > 25 || input < 28) {
+					msg = "normal rate";
+				}
+				// Preparing and sending the reply for the client.				
+				PulseReadResponse reply = PulseReadResponse.newBuilder().setTextback(msg).build();
+
+				responseObserver.onNext(reply);
+				;
+
+
 			}
-	    
+
+			@Override
+			public void onError(Throwable t) {
+
+			}
+
+			@Override
+			public void onCompleted() {
+				responseObserver.onCompleted();
+
+			}
+
+		};
 	}
-	
-		 
-		 public StreamObserver<PulseReadRequest> PulseReading(StreamObserver<PulseReadResponse> responseObserver) {
-				return new StreamObserver<PulseReadRequest>() {
 
-					// For each message in the stream, get one stream at a time.
-					// NOTE: YOU MAY MODIFY THE LOGIC OF onNext, onError, onCompleted BASED ON YOUR PROJECT.
-					@Override
-					public void onNext(PulseReadRequest request) {
-						// In bidirectional stream, both server and  client would be sending the stream of messages.
-						// Here, for each message in stream from client, server is sending back one response.
-							StringBuilder input1 = new StringBuilder(); 
-						  
-				            input1.append(request.getNum());
-				           
-				        
-				         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
-				            PulseReadResponse reply = PulseReadResponse.newBuilder().setTextback("").build();
-				            
-				            responseObserver.onNext(reply);
-						
-					}
+	// rpc method for Client Streaming calls
+	public StreamObserver<StepsCalcRequest> StepsCalculator(StreamObserver<StepsCalcResponse> responseObserver) {
 
-					@Override
-					public void onError(Throwable t) {
-						
-						
-					}
+		// Retrieve the value from the stream of requests of the client.
+		return new StreamObserver<StepsCalcRequest>() {
 
-					@Override
-					public void onCompleted() {
-						 responseObserver.onCompleted();
-						
-					}
-					
-				};}
+			// For each message in the stream, get one stream at a time.
+			public void onNext(StepsCalcRequest steps) {
 				
-				public StreamObserver<StepsCalcRequest> StepsCalculator(StreamObserver<StepsCalcResponse> responseObserver) {
-					
-					// Retrieve the value from the stream of requests of the client. 
-					return new StreamObserver<StepsCalcRequest>() {
-						
-						
-						// For each message in the stream, get one stream at a time.
-						// NOTE: YOU MAY MODIFY THE LOGIC OF onNext, onError, onCompleted BASED ON YOUR PROJECT.
-						
-						
-						public void onNext(StepsCalcRequest value) {
-							// In bidirectional stream, both server and  client would be sending the stream of messages.
-							// Here, for each message in stream from client, server is sending back one response.
-								StringBuilder input = new StringBuilder(); 
-							  
-					            input.append(value.getNum()); 
-					           
-					        
-					         // Preparing and sending the reply for the client. Here, response is build and with the value (input1.toString()) computed by above logic.
-					            StepsCalcResponse reply = StepsCalcResponse.newBuilder().setTextback("testing2").build();
-					            
-					            responseObserver.onNext(reply);;
-							
-						}
 
-						@Override
-						public void onError(Throwable t) {
-							
-							
-						}
+				int goal = 10000;
+				int done = steps.getSteps();
+				String text = "";
+				int stepsLeft = 0;
+				
+				if (done > 10000) {
+					stepsLeft = goal - done;
+					text = "You still have left ";
+				}
+				else if (done >= 10000) {
+					stepsLeft = goal + done;
+					text = "Congrats! You've achieved your daily goal!";
+				}
+				
+				// Preparing and sending the reply for the client.				
+				StepsCalcResponse reply = StepsCalcResponse.newBuilder().setStepsleft(stepsLeft).setTextback(text).build();
 
-						@Override
-						public void onCompleted() {
-							 responseObserver.onCompleted();
-							
-						}
+				responseObserver.onNext(reply);
+				;
 
-					
-						
-					};}
+			}
+
+			@Override
+			public void onError(Throwable t) {
+
+			}
+
+			@Override
+			public void onCompleted() {
+				responseObserver.onCompleted();
+
+			}
+
+		};
+	}
 }

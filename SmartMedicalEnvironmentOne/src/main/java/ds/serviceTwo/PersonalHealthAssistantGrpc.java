@@ -239,11 +239,6 @@ public final class PersonalHealthAssistantGrpc {
       return blockingServerStreamingCall(
           getChannel(), getMedicineStockMethod(), getCallOptions(), request);
     }
-
-	public BMICalcResponse BMICalculator(BMICalcRequest req) {
-		// TODO Auto-generated method stub
-		return null;
-	}
   }
 
   /**

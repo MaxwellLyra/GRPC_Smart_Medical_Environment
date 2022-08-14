@@ -238,11 +238,6 @@ public final class PatientMonitoringControlGrpc {
       return blockingUnaryCall(
           getChannel(), getPatientUpdateMethod(), getCallOptions(), request);
     }
-
-	public VitCheckerResponse VitalsChecker(VitCheckerRequest req) {
-		// TODO Auto-generated method stub
-		return null;
-	}
   }
 
   /**

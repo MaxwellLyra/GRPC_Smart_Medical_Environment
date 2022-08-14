@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private StepsCalcRequest() {
-    num_ = 0;
+    steps_ = 0;
   }
 
   @java.lang.Override
@@ -45,7 +45,7 @@ private static final long serialVersionUID = 0L;
             break;
           case 8: {
 
-            num_ = input.readInt32();
+            steps_ = input.readInt32();
             break;
           }
           default: {
@@ -80,13 +80,13 @@ private static final long serialVersionUID = 0L;
             ds.serviceOne.StepsCalcRequest.class, ds.serviceOne.StepsCalcRequest.Builder.class);
   }
 
-  public static final int NUM_FIELD_NUMBER = 1;
-  private int num_;
+  public static final int STEPS_FIELD_NUMBER = 1;
+  private int steps_;
   /**
-   * <code>int32 num = 1;</code>
+   * <code>int32 steps = 1;</code>
    */
-  public int getNum() {
-    return num_;
+  public int getSteps() {
+    return steps_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -103,8 +103,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (num_ != 0) {
-      output.writeInt32(1, num_);
+    if (steps_ != 0) {
+      output.writeInt32(1, steps_);
     }
     unknownFields.writeTo(output);
   }
@@ -115,9 +115,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (num_ != 0) {
+    if (steps_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, num_);
+        .computeInt32Size(1, steps_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -135,8 +135,8 @@ private static final long serialVersionUID = 0L;
     ds.serviceOne.StepsCalcRequest other = (ds.serviceOne.StepsCalcRequest) obj;
 
     boolean result = true;
-    result = result && (getNum()
-        == other.getNum());
+    result = result && (getSteps()
+        == other.getSteps());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -148,8 +148,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + NUM_FIELD_NUMBER;
-    hash = (53 * hash) + getNum();
+    hash = (37 * hash) + STEPS_FIELD_NUMBER;
+    hash = (53 * hash) + getSteps();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -283,7 +283,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      num_ = 0;
+      steps_ = 0;
 
       return this;
     }
@@ -311,7 +311,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public ds.serviceOne.StepsCalcRequest buildPartial() {
       ds.serviceOne.StepsCalcRequest result = new ds.serviceOne.StepsCalcRequest(this);
-      result.num_ = num_;
+      result.steps_ = steps_;
       onBuilt();
       return result;
     }
@@ -360,8 +360,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(ds.serviceOne.StepsCalcRequest other) {
       if (other == ds.serviceOne.StepsCalcRequest.getDefaultInstance()) return this;
-      if (other.getNum() != 0) {
-        setNum(other.getNum());
+      if (other.getSteps() != 0) {
+        setSteps(other.getSteps());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -392,28 +392,28 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int num_ ;
+    private int steps_ ;
     /**
-     * <code>int32 num = 1;</code>
+     * <code>int32 steps = 1;</code>
      */
-    public int getNum() {
-      return num_;
+    public int getSteps() {
+      return steps_;
     }
     /**
-     * <code>int32 num = 1;</code>
+     * <code>int32 steps = 1;</code>
      */
-    public Builder setNum(int value) {
+    public Builder setSteps(int value) {
       
-      num_ = value;
+      steps_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 num = 1;</code>
+     * <code>int32 steps = 1;</code>
      */
-    public Builder clearNum() {
+    public Builder clearSteps() {
       
-      num_ = 0;
+      steps_ = 0;
       onChanged();
       return this;
     }

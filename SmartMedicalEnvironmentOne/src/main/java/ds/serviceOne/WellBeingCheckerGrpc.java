@@ -228,11 +228,6 @@ public final class WellBeingCheckerGrpc {
         io.grpc.CallOptions callOptions) {
       return new WellBeingCheckerBlockingStub(channel, callOptions);
     }
-
-	public PulseReadResponse PulseReading(PulseReadRequest req) {
-		// TODO Auto-generated method stub
-		return null;
-	}
   }
 
   /**

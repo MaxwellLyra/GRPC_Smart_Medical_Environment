@@ -17,6 +17,7 @@ private static final long serialVersionUID = 0L;
   }
   private StepsCalcResponse() {
     textback_ = "";
+    stepsleft_ = 0;
   }
 
   @java.lang.Override
@@ -47,6 +48,11 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             textback_ = s;
+            break;
+          }
+          case 16: {
+
+            stepsleft_ = input.readInt32();
             break;
           }
           default: {
@@ -115,6 +121,15 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int STEPSLEFT_FIELD_NUMBER = 2;
+  private int stepsleft_;
+  /**
+   * <code>int32 stepsleft = 2;</code>
+   */
+  public int getStepsleft() {
+    return stepsleft_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -132,6 +147,9 @@ private static final long serialVersionUID = 0L;
     if (!getTextbackBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, textback_);
     }
+    if (stepsleft_ != 0) {
+      output.writeInt32(2, stepsleft_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -143,6 +161,10 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (!getTextbackBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, textback_);
+    }
+    if (stepsleft_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(2, stepsleft_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -162,6 +184,8 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && getTextback()
         .equals(other.getTextback());
+    result = result && (getStepsleft()
+        == other.getStepsleft());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -175,6 +199,8 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TEXTBACK_FIELD_NUMBER;
     hash = (53 * hash) + getTextback().hashCode();
+    hash = (37 * hash) + STEPSLEFT_FIELD_NUMBER;
+    hash = (53 * hash) + getStepsleft();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -310,6 +336,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       textback_ = "";
 
+      stepsleft_ = 0;
+
       return this;
     }
 
@@ -337,6 +365,7 @@ private static final long serialVersionUID = 0L;
     public ds.serviceOne.StepsCalcResponse buildPartial() {
       ds.serviceOne.StepsCalcResponse result = new ds.serviceOne.StepsCalcResponse(this);
       result.textback_ = textback_;
+      result.stepsleft_ = stepsleft_;
       onBuilt();
       return result;
     }
@@ -388,6 +417,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getTextback().isEmpty()) {
         textback_ = other.textback_;
         onChanged();
+      }
+      if (other.getStepsleft() != 0) {
+        setStepsleft(other.getStepsleft());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -483,6 +515,32 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       textback_ = value;
+      onChanged();
+      return this;
+    }
+
+    private int stepsleft_ ;
+    /**
+     * <code>int32 stepsleft = 2;</code>
+     */
+    public int getStepsleft() {
+      return stepsleft_;
+    }
+    /**
+     * <code>int32 stepsleft = 2;</code>
+     */
+    public Builder setStepsleft(int value) {
+      
+      stepsleft_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 stepsleft = 2;</code>
+     */
+    public Builder clearStepsleft() {
+      
+      stepsleft_ = 0;
       onChanged();
       return this;
     }

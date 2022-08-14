@@ -112,7 +112,7 @@ public class ServerTwo extends PersonalHealthAssistantImplBase{
 	}
 	
 		 
-		 
+		// rpc method for Client Streaming calls
 		 public StreamObserver<BMICalcRequest> BMICalculator(StreamObserver<BMICalcResponse> responseObserver) {
 				
 				// Retrieve the value from the stream of requests of the client. 
@@ -121,13 +121,11 @@ public class ServerTwo extends PersonalHealthAssistantImplBase{
 					int result = 0;
 					
 					// For each message in the stream, get one stream at a time.
-					// NOTE: YOU MAY MODIFY THE LOGIC OF onNext, onError, onCompleted BASED ON YOUR PROJECT.
-					
 					public void onNext(BMICalcRequest value) {
-						// Here, in this example we compute the value of string length for each message in the stream. 
+						
 						System.out.println("receive -> " + value.getHeight());
 						System.out.println("receive -> " + value.getWeigth());
-						// Keep on adding all the length values to compute the total length of strings sent by the client in the stream 
+						
 						result = value.getWeigth() / (value.getHeight()*2);
 						
 					}
@@ -151,22 +149,28 @@ public class ServerTwo extends PersonalHealthAssistantImplBase{
 
 				}
 				
-				public void MedicineStock(MedStockRequest request, StreamObserver<MedStockResponse> responseObserver2) {
-					 System.out.println("receiving split");
-					 
-					// Retrieve the value from the request of the client and convert it to array
+		 		// rpc method for Server Streaming calls
+				public void MedicineStock(MedStockRequest request, StreamObserver<MedStockResponse> responseObserver) {
+										 
+					// Retrieve the value from the request of the client 
 					 String search = request.getText();
+					 String pharmacy = "";
 					 
 					// LOGIC of THE METHOD 
-						// NOTE: YOU MAY NEED TO MODIFY THIS LOGIC HERE.
 					 if (search.equalsIgnoreCase("Paracetamol")) {
-						 responseObserver2.onNext(MedStockResponse.newBuilder().setTextback("32, Jervis St. - Shamroock Pharmacy").build());
+						 pharmacy = "32, Jervis St. - Shamroock Pharmacy";
 					 }
 					 else if (search.equalsIgnoreCase("Panadol")) {
-						 responseObserver2.onNext(MedStockResponse.newBuilder().setTextback("101, Dame St. - Boots Pharmacy").build());
+						 pharmacy = "101, Dame St. - Boots Pharmacy";
 					 }
-										 
-					 responseObserver2.onCompleted();
+					 else {
+						 pharmacy = "This medicine is out of stock";
+					 }
+					 MedStockResponse response = MedStockResponse.newBuilder().setTextback(pharmacy).build();
+					 
+					 responseObserver.onNext(response);	
+					 
+					 responseObserver.onCompleted();
 				}
 			}
 		 
